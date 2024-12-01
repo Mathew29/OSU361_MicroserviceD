@@ -13,15 +13,15 @@ def createLineGraph():
         while True:
             if socket.poll(1000):
                 data = socket.recv_json()
-                print(data)
-                metrics = data[0]['metrics']
+                print(data['product']['metrics'])
+                metrics = data['product']['metrics']
                 dates = [datetime.fromisoformat(
                     item['record_date'].replace("Z", "+00:00")) for item in metrics]
                 prices = [float(item['price']) for item in metrics]
 
                 plt.figure(figsize=(18, 10))
                 plt.plot(dates, prices, marker='o', linestyle='-',
-                         color='b', label=data[0]['name'])
+                         color='b', label=data['product']['name'])
                 plt.title('Price vs. Dates Recorded', fontsize=14)
                 plt.xlabel('Dates Recorded', fontsize=14)
                 plt.ylabel('Price', fontsize=14)
